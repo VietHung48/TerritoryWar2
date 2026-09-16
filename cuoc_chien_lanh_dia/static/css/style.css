@@ -1,0 +1,390 @@
+:root {
+  --bg-dark: #1b1f2a;
+  --bg-panel: #232838;
+  --gold: #d4af37;
+  --gold-soft: #e9c85e;
+  --text-light: #f4ede1;
+  --text-muted: #a9a9b8;
+  --red: #e74c3c;
+  --shadow: 0 8px 24px rgba(0,0,0,0.35);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", "Be Vietnam Pro", Arial, sans-serif;
+  font-size: 16px;
+  background: radial-gradient(circle at 50% -10%, #2b3350 0%, var(--bg-dark) 55%);
+  color: var(--text-light);
+  min-height: 100vh;
+}
+
+.app-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 18px 28px;
+  background: linear-gradient(135deg, #7a1f1f, #4a1010 70%);
+  border-bottom: 3px solid var(--gold);
+  box-shadow: var(--shadow);
+}
+
+.app-header h1 {
+  margin: 0;
+  font-size: 26px;
+  letter-spacing: 0.5px;
+}
+
+.tabs { display: flex; gap: 8px; flex-wrap: wrap; }
+
+.tab-btn {
+  background: rgba(255,255,255,0.08);
+  color: var(--text-light);
+  border: 1px solid rgba(212,175,55,0.4);
+  border-radius: 999px;
+  padding: 10px 18px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.tab-btn:hover { background: rgba(212,175,55,0.25); }
+
+.tab-btn.active {
+  background: var(--gold);
+  color: #2a1a00;
+  border-color: var(--gold);
+}
+
+.tab-btn.reset-btn {
+  background: transparent;
+  border-color: rgba(255,255,255,0.25);
+  margin-left: 8px;
+}
+
+main { padding: 24px 28px 60px; max-width: 1200px; margin: 0 auto; }
+
+.hint { color: var(--text-muted); margin-bottom: 16px; }
+
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* ---------- Câu hỏi ---------- */
+.question-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+  gap: 12px;
+}
+/* .question-option.correct {
+    color: #e74c3c;
+    border-color: #e74c3c;
+    background: #fff0f0;
+} */
+.question-option.correct {
+  color: #fff;
+  background: #e74c3c;
+  border-color: #e74c3c;
+  animation: correctAnswer 0.6s ease;
+}
+
+@keyframes correctAnswer {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 rgba(231, 76, 60, 0);
+  }
+
+  40% {
+    transform: scale(1.08);
+    box-shadow: 0 0 25px rgba(231, 76, 60, 0.7);
+  }
+
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 10px rgba(231, 76, 60, 0.4);
+  }
+}
+.q-card {
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  background: linear-gradient(160deg, #3a4160, #232838);
+  border: 2px solid var(--gold);
+  color: var(--gold-soft);
+  font-size: 22px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.q-card:hover { transform: translateY(-3px) scale(1.03); }
+
+.q-card.used {
+  background: #1a1d27;
+  border-color: #444a5e;
+  color: #555a6b;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* ---------- Lãnh địa ---------- */
+.territory-layout {
+  display: flex;
+  /* flex-wrap: wrap; */
+  gap: 28px;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.board-wrap {
+  background: #14171f;
+  padding: 18px;
+  border-radius: 16px;
+  border: 2px solid var(--gold);
+  box-shadow: var(--shadow);
+}
+
+.board {
+  --cell-size: 82px;
+  display: grid;
+  gap: 6px;
+}
+
+.cell {
+  width: var(--cell-size);
+  height: var(--cell-size);
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.15);
+  background: #2c3142;
+  color: #e8e8f0;
+  font-weight: 700;
+  font-size: 19px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.08s ease, filter 0.15s ease;
+}
+
+.cell:hover { filter: brightness(1.15); transform: scale(1.05); }
+
+.ranking-box {
+  min-width: 280px;
+  background: var(--bg-panel);
+  border: 2px solid var(--gold);
+  border-radius: 16px;
+  padding: 18px 20px;
+  box-shadow: var(--shadow);
+}
+
+.ranking-box h3 {
+  margin-top: 0;
+  color: var(--gold-soft);
+  border-bottom: 1px solid rgba(212,175,55,0.4);
+  padding-bottom: 8px;
+}
+
+.rank-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 7px 0;
+  gap: 2px;
+  border-bottom: 1px dashed rgba(255,255,255,0.08);
+}
+
+.rank-row .swatch-dot {
+  width: 14px; height: 14px; border-radius: 50%;
+  display: inline-block; margin-right: 8px;
+  border: 1px solid rgba(255,255,255,0.4);
+}
+
+.leader-line {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(212,175,55,0.4);
+  font-size: 14px;
+}
+
+/* ---------- Modal câu hỏi ---------- */
+.overlay {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.65);
+  z-index: 1000;
+}
+
+.question-box {
+  display: none;
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(1080px, 94vw);
+  max-height: 88vh;
+  overflow-y: auto;
+  background: linear-gradient(160deg, #fdf8ec, #f1e6c9);
+  color: #2a1a00;
+  border: 4px solid var(--gold);
+  border-radius: 18px;
+  padding: 28px 32px;
+  z-index: 1001;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+}
+
+.perk-banner {
+  border-radius: 10px;
+  padding: 10px 14px;
+  margin-bottom: 14px;
+  font-weight: 700;
+  text-align: center;
+  animation: pop 0.35s ease;
+}
+
+.perk-banner.buff { background: #d7f5df; border: 2px solid #2ecc71; color: #14672d; }
+.perk-banner.debuff { background: #fbdcdc; border: 2px solid #e74c3c; color: #7a1f1f; }
+
+@keyframes pop {
+  0% { transform: scale(0.85); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.question-text {
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.45;
+  margin: 6px 0 14px;
+}
+
+.question-images {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.question-images img {
+  max-width: 45%;
+  border-radius: 10px;
+  border: 2px solid var(--gold);
+}
+
+.timer-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 14px 0;
+}
+
+.timer-display {
+  font-size: 34px;
+  font-weight: 800;
+  min-width: 56px;
+  text-align: center;
+  color: #7a1f1f;
+}
+
+.timer-display.urgent { color: #e74c3c; animation: pulse 0.5s infinite alternate; }
+
+@keyframes pulse { from { transform: scale(1); } to { transform: scale(1.15); } }
+
+.answer-row {
+  background: #fff6df;
+  border: 1px dashed var(--gold);
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin-bottom: 14px;
+  min-height: 52px;
+  font-size: 20px;
+}
+
+.answer-label { font-weight: 700; margin-right: 6px; }
+
+.modal-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.btn {
+  border: none;
+  border-radius: 10px;
+  padding: 10px 16px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.btn-timer { background: var(--gold); color: #2a1a00; }
+.btn-primary { background: #2ecc71; color: #06331a; }
+.btn-secondary { background: #3498db; color: #06263f; }
+.btn-close { background: #ccc; color: #333; }
+
+/* ---------- Popup chọn màu ---------- */
+.color-popup {
+  position: fixed;
+  z-index: 1500;
+  background: var(--bg-panel);
+  border: 2px solid var(--gold);
+  border-radius: 14px;
+  padding: 14px 16px;
+  box-shadow: var(--shadow);
+}
+
+.color-popup-title {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+.color-swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  max-width: 220px;
+}
+
+.swatch {
+  border: 2px solid rgba(255,255,255,0.5);
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+  cursor: pointer;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+}
+
+.swatch.neutral {
+  background: #555 !important;
+  color: #eee;
+}
+
+#questionOptions {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.question-option {
+    background: #ffffff;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    padding: 14px 18px;
+    font-size: 20px;
+    line-height: 1.5;
+    min-height: 52px;
+}
+
+.question-option b {
+    margin-right: 6px;
+}

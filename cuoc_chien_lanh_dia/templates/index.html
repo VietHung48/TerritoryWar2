@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cuộc Chiến Lãnh Địa</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+  <header class="app-header">
+    <h1>🏳️ Cuộc Chiến Lãnh Địa</h1>
+    <div class="tabs">
+      <button id="tabQuestionsBtn" class="tab-btn active" onclick="showTab('questions')">🎯 Câu hỏi</button>
+      <button id="tabTerritoryBtn" class="tab-btn" onclick="showTab('territory')">🗺️ Lãnh địa</button>
+      <button class="tab-btn reset-btn" onclick="resetGame()">↺ Chơi lại</button>
+    </div>
+  </header>
+
+  <main>
+    <!-- ================= TAB CÂU HỎI ================= -->
+    <section id="tab-questions" class="tab-panel active">
+      <p class="hint">Chọn 1 câu hỏi bất kỳ trong {{ total_questions }} câu để mở. Câu đã dùng sẽ mờ đi.</p>
+      <div id="questionGrid" class="question-grid"></div>
+    </section>
+
+    <!-- ================= TAB LÃNH ĐỊA ================= -->
+    <section id="tab-territory" class="tab-panel">
+      <div class="territory-layout">
+        <div class="board-wrap">
+          <div id="board" class="board" style="grid-template-columns: repeat({{ cols }}, var(--cell-size, 90px));"></div>
+        </div>
+        <aside id="ranking" class="ranking-box"></aside>
+      </div>
+    </section>
+  </main>
+
+  <!-- ================= MODAL CÂU HỎI ================= -->
+  <div id="overlay" class="overlay"></div>
+  <div id="questionBox" class="question-box">
+    <div id="perkBanner" class="perk-banner" style="display:none;"></div>
+    <p id="questionText" class="question-text"></p>
+    <div id="questionOptions"></div>
+    <div id="questionImages" class="question-images"></div>
+
+    <div class="timer-row">
+      <div id="timerDisplay" class="timer-display">10</div>
+      <button id="timerBtn" class="btn btn-timer" onclick="startTimer()">⏱️ Bắt đầu đếm giờ (10s)</button>
+    </div>
+
+    <div id="answerRow" class="answer-row" style="display:none;">
+      <span class="answer-label">Đáp án:</span>
+      <span id="answerText" class="answer-text"></span>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="revealAnswer()">👁️ Hiện đáp án</button>
+      <button class="btn btn-primary" onclick="goToTerritory()">🗺️ Chuyển sang Lãnh địa</button>
+      <button class="btn btn-close" onclick="closeQuestion()">Đóng</button>
+    </div>
+  </div>
+
+  <!-- ================= POPUP CHỌN MÀU (thay cho textbox) ================= -->
+  <div id="colorPopup" class="color-popup" style="display:none;">
+    <div class="color-popup-title">Chọn đội chiếm ô</div>
+    <div class="color-swatches">
+      {% for t in team_order %}
+      <button class="swatch" data-team="{{ t }}" style="background:{{ teams[t]['color'] }};" onclick="pickColor('{{ t }}')">
+        {{ teams[t]['name'] }}
+      </button>
+      {% endfor %}
+      <button class="swatch neutral" data-team="" onclick="pickColor(null)">Bỏ trống</button>
+    </div>
+  </div>
+
+  <script>
+    window.GAME_CONFIG = {
+      rows: {{ rows }},
+      cols: {{ cols }},
+      teams: {{ teams | tojson }},
+      teamOrder: {{ team_order | tojson }}
+    };
+  </script>
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
